@@ -2,6 +2,10 @@ import random
 import linecache
 import graphics
 import time
+import urllib.request
+
+
+
 
 
 def get_letter(letters):
@@ -19,6 +23,7 @@ def get_letter(letters):
             print("You've already guessed that letter. ")
             continue
         return str(letter_guess).lower()
+
 
 
 
@@ -100,9 +105,13 @@ def count_lines():
 
 def get_random_word():
     #get a random line, linecache adds a space at the end of the string so delete it with slicing before return
-    word = linecache.getline("words.txt",random.randint(0,count_lines()))
-    word = word[:-1]
-    print(word)
-    return word
+    with urllib.request.urlopen("http://randomword.setgetgo.com/get.php") as response:
+        word = response.read()
+        print(word.decode('utf8'))
+        return (word.decode('utf8'))
+    #word = linecache.getline("words.txt",random.randint(0,count_lines()))
+    #word = word[:-1]
+    #print(word)
+    #return word
 
 main()
